@@ -45,21 +45,21 @@ class TestRoutes(TestCase):
                 response = self.client.get(url)
                 self.assertEqual(response.status_code, HTTPStatus.OK)
 
-    # def test_availability_for_comment_edit_and_delete(self):
-    #     users_statuses = (
-    #         (self.author, HTTPStatus.OK),
-    #         (self.reader, HTTPStatus.NOT_FOUND),
-    #     )
-    #     for user, status in users_statuses:
-    #         # Логиним пользователя в клиенте:
-    #         self.client.force_login(user)
-    #         # Для каждой пары "пользователь - ожидаемый ответ"
-    #         # перебираем имена тестируемых страниц:
-    #         for name in ( 'notes:success'):  # 'notes:add',
-    #             with self.subTest(user=user, name=name):        
-    #                 url = reverse(name)
-    #                 response = self.client.get(url)
-    #                 self.assertEqual(response.status_code, status)
+    def test_availability_for_comment_edit_and_delete(self):
+        users_statuses = (
+            (self.author, HTTPStatus.OK),
+            (self.reader, HTTPStatus.NOT_FOUND),
+        )
+        for user, status in users_statuses:
+            # Логиним пользователя в клиенте:
+            self.client.force_login(user)
+            # Для каждой пары "пользователь - ожидаемый ответ"
+            # перебираем имена тестируемых страниц:
+            for name in ( ('notes:edit', 'notes:delete')):  # 'notes:add',
+                with self.subTest(user=user, name=name):        
+                    url = reverse(name, args=(self.note.slug,))
+                    response = self.client.get(url)
+                    self.assertEqual(response.status_code, status)
     
     def test_redirect_for_anonymous_client(self):
         # Сохраняем адрес страницы логина:
