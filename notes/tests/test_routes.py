@@ -6,7 +6,6 @@ from http import HTTPStatus
 
 from notes.models import Note
 
-
 User = get_user_model()
 
 
