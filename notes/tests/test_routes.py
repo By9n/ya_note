@@ -77,7 +77,7 @@ class TestRoutes(TestCase):
                 response = self.client.get(url)
                 # Проверяем, что редирект приведёт именно на указанную ссылку.
                 self.assertRedirects(response, redirect_url)
-        for name in ('notes:success', 'notes:add'):
+        for name in ('notes:success', 'notes:add', 'notes:list'):
             with self.subTest(name=name):
                 # Получаем адрес страницы редактирования или удаления комментария:
                 url = reverse(name)
