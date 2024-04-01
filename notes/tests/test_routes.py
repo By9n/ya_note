@@ -1,15 +1,12 @@
-# news/tests/test_routes.py
-from http import HTTPStatus
-
-# Импортируем функцию для определения модели пользователя.
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
-# Импортируем класс комментария.
+from http import HTTPStatus
+
 from notes.models import Note
 
-# Получаем модель пользователя.
+
 User = get_user_model()
 
 
@@ -31,10 +28,6 @@ class TestRoutes(TestCase):
     def test_pages_availability(self):
         urls = (
             ('notes:home', None),
-            # ('notes:add', None),
-            # ('notes:detail', (self.notes.slug,)),
-            # ('notes:edit', (self.notes.slug,)),
-            # ('notes:delete', (self.notes.slug,)),
             ('users:login', None),
             ('users:logout', None),
             ('users:signup', None),
@@ -55,7 +48,7 @@ class TestRoutes(TestCase):
             self.client.force_login(user)
             # Для каждой пары "пользователь - ожидаемый ответ"
             # перебираем имена тестируемых страниц:
-            for name in (('notes:edit', 'notes:delete')):  # 'notes:add',
+            for name in (('notes:edit', 'notes:delete')):
                 with self.subTest(user=user, name=name):
                     url = reverse(name, args=(self.note.slug,))
                     response = self.client.get(url)
