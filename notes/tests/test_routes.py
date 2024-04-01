@@ -22,7 +22,7 @@ class TestRoutes(TestCase):
         cls.reader = User.objects.create(username='Читатель простой')
         # От имени одного пользователя создаём note:
         cls.note = Note.objects.create(
-            title='Заголовок', 
+            title='Заголовок',
             text='Текст',
             author=cls.author,
             slug='slug_test'
@@ -55,12 +55,12 @@ class TestRoutes(TestCase):
             self.client.force_login(user)
             # Для каждой пары "пользователь - ожидаемый ответ"
             # перебираем имена тестируемых страниц:
-            for name in ( ('notes:edit', 'notes:delete')):  # 'notes:add',
-                with self.subTest(user=user, name=name):        
+            for name in (('notes:edit', 'notes:delete')):  # 'notes:add',
+                with self.subTest(user=user, name=name):
                     url = reverse(name, args=(self.note.slug,))
                     response = self.client.get(url)
                     self.assertEqual(response.status_code, status)
-    
+
     def test_redirect_for_anonymous_client(self):
         # Сохраняем адрес страницы логина:
         login_url = reverse('users:login')
@@ -69,7 +69,7 @@ class TestRoutes(TestCase):
             with self.subTest(name=name):
                 # Получаем адрес страницы редактирования или удаления комментария:
                 url = reverse(name, args=(self.note.slug,))
-                # Получаем ожидаемый адрес страницы логина, 
+                # Получаем ожидаемый адрес страницы логина,
                 # на который будет перенаправлен пользователь.
                 # Учитываем, что в адресе будет параметр next, в котором передаётся
                 # адрес страницы, с которой пользователь был переадресован.
@@ -77,11 +77,11 @@ class TestRoutes(TestCase):
                 response = self.client.get(url)
                 # Проверяем, что редирект приведёт именно на указанную ссылку.
                 self.assertRedirects(response, redirect_url)
-        for name in ('notes:success', 'notes:add'):
+        for name in ('notes:success', 'notes:add', 'notes:list'):
             with self.subTest(name=name):
                 # Получаем адрес страницы редактирования или удаления комментария:
                 url = reverse(name)
-                # Получаем ожидаемый адрес страницы логина, 
+                # Получаем ожидаемый адрес страницы логина,
                 # на который будет перенаправлен пользователь.
                 # Учитываем, что в адресе будет параметр next, в котором передаётся
                 # адрес страницы, с которой пользователь был переадресован.
